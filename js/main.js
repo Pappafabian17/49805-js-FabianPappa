@@ -1,3 +1,4 @@
+//creo el objeto Materia
 function Materia(nombre) {
   this.nombre = nombre;
   this.notas = [];
@@ -9,8 +10,10 @@ function Materia(nombre) {
     return suma / this.notas.length;
   };
 }
-
+// declaro un array vacio para llenarlo de materias
 let materias = [];
+
+//funciones
 
 function agregarMateria(nombre) {
   let materia = new Materia(nombre);
@@ -39,11 +42,11 @@ function mostrarMaterias() {
   }
   alert(mensaje);
 }
-
+// la funcion calcular Materias se encarga de obtener la cantidad de materias y ejecutar en base a lo seleccionado. se encarga de nombrar las materias y la nota promedio
 function calcularMaterias(cantidad) {
   if (cantidad >= 1 && cantidad <= 7) {
     for (let i = 0; i < cantidad; i++) {
-      let nombre = prompt("Ingrsa el nombre de la materia N° : " + (i + 1));
+      let nombre = prompt("Ingresa el nombre de la materia N° : " + (i + 1));
       agregarMateria(nombre);
       let materia = buscarMateria(nombre);
       for (let n = 0; n < 3; n++) {
