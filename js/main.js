@@ -1,35 +1,88 @@
-const cantidad = Number(prompt("Cuantas materias queres calcular?(Maximo 7 materias )"))
-
-function calcularPromedio(materia, promedioNotas){
-    
-    alert("te sacaste un " + " " +  promedioNotas +  " " +  "en" + " " + materia )
-    if (promedioNotas >= 7 && promedioNotas <= 10) {
-        alert("Felicitaciones Aprobaste" + " " + materia )
-    }else{
-        alert("Vas a tener que estudiar mas, desaprobaste" + " " + materia + " " + "Nos vemos en diciembre" )
-    }
+function Materia(nombre) {
+  this.nombre = nombre;
+  this.notas = [];
+  this.agregarNota = function (nota) {
+    this.notas.push(nota);
+  };
+  this.calcularPromedio = function () {
+    let suma = this.notas.reduce((a, b) => a + b, 0);
+    return suma / this.notas.length;
+  };
 }
 
-function calcularMaterias(cantidad){
-    if(cantidad >=1 && cantidad <=7){
-        for(let i =0; i < cantidad;i++){
-            let materia = prompt("Ingresa el nombre de la materia N° : " + (i + 1) + "?" );
-            let nota1 = Number(prompt("ingresa la nota que te sacaste en el primer cuatrimestre de " + " " + materia));
-            let nota2 = Number(prompt("ingresa la nota que te sacaste en el segundo cuatrimestre de  " + " " + materia));
-            let nota3 = Number(prompt("ingresa la nota que te sacaste en el tercer cuatrimestre de "+ " " + materia));
-            let promedio = parseInt((nota1 + nota2 + nota3 )/3,10);
-            calcularPromedio(materia, promedio);
-        }
-    }else if (cantidad < 1 ){
-        alert("No existe esa cantidad de materias, minimo 1");
-        cantidad = Number(prompt("Cuantas materias queres calcular?(Maximo 7 materias )"))
-        calcularMaterias(cantidad);
-    
-    }else{
-        alert("Son muchas Materias, podes calcular hasta 7");
-        cantidad = Number(prompt("Cuantas materias queres calcular?(Maximo 7 materias )"))
-        calcularMaterias(cantidad);
-    }
+let materias = [];
 
+function agregarMateria(nombre) {
+  let materia = new Materia(nombre);
+  materias.push(materia);
 }
+function buscarMateria(nombre) {
+  for (let i = 0; i < materias.length; i++) {
+    if (materias[i].nombre === nombre) {
+      return materias[i];
+    }
+  }
+  return null;
+}
+
+function filtrarMaterias(promedio) {
+  let materiasFiltradas = materias.filter(
+    (materia) => materia.calcularPromedio() >= promedio
+  );
+  return materiasFiltradas;
+}
+
+function mostrarMaterias() {
+  let mensaje = "Tus materias y notas son:\n";
+  for (let i = 0; i < materias.length; i++) {
+    mensaje += materias[i].nombre + ": " + materias[i].notas.join(", ") + "\n";
+  }
+  alert(mensaje);
+}
+
+function calcularMaterias(cantidad) {
+  if (cantidad >= 1 && cantidad <= 7) {
+    for (let i = 0; i < cantidad; i++) {
+      let nombre = prompt("Ingrsa el nombre de la materia N° : " + (i + 1));
+      agregarMateria(nombre);
+      let materia = buscarMateria(nombre);
+      for (let n = 0; n < 3; n++) {
+        let nota = Number(
+          prompt(
+            "ingresa la nota que te sacaste en el cuatrimestre N°" +
+              " " +
+              (n + 1) +
+              " " +
+              "de " +
+              " " +
+              nombre
+          )
+        );
+        materia.agregarNota(nota);
+      }
+      let promedio = materia.calcularPromedio();
+      alert(
+        "El promedio de " + " " + nombre + " " + "es" + " " + parseInt(promedio)
+      );
+    }
+  } else if (cantidad < 1) {
+    alert("No existe esa cantidad de materias, minimo 1");
+    cantidad = Number(
+      prompt("Cuantas materias queres calcular?(Maximo 7 materias )")
+    );
+    calcularMaterias(cantidad);
+  } else {
+    alert("Son muchas Materias, podes calcular hasta 7");
+    cantidad = Number(
+      prompt("Cuantas materias queres calcular?(Maximo 7 materias )")
+    );
+    calcularMaterias(cantidad);
+  }
+}
+
+const cantidad = Number(
+  prompt("Cuantas materias queres calcular?(Maximo 7 materias )")
+);
 calcularMaterias(cantidad);
+
+mostrarMaterias();
