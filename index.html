@@ -1,13 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
     <h1>Proyecto de Fabian Pappa Curso de Javascript, segunda Entrega</h1>
-    <script src="js/main.js" ></script>
-</body>
+
+    <div class="contenedor-principal">
+      <h2>Calculador de Promedio</h2>
+      <h3>Podes ingresar los alumnos y los promedios aqui:</h3>
+
+      <div class="form-container">
+        <form id="materiaForm">
+          <label for="nombreMateria">Nombre de la materia:</label>
+          <input type="text" id="nombreMateria" required />
+
+          <label for="nota1">Nota cuatrimestre 1:</label>
+          <input type="text" id="nota1" required />
+
+          <label for="nota2">Nota cuatrimestre 2:</label>
+          <input type="text" id="nota2" required />
+
+          <label for="nota3">Nota cuatrimestre 3:</label>
+          <input type="text" id="nota3" required />
+          <button type="button" onclick="agregarMateriaDesdeFormulario()">
+            Agregar Materia
+          </button>
+        </form>
+        <div id="resultados"></div>
+        <button onclick="borrarLocalStorage()">Borrar Materias</button>
+      </div>
+    </div>
+    <script src="js/main.js"></script>
+  </body>
 </html>

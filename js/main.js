@@ -1,4 +1,4 @@
-//creo el objeto Materia
+// creo el objeto de materia
 function Materia(nombre) {
   this.nombre = nombre;
   this.notas = [];
@@ -10,15 +10,47 @@ function Materia(nombre) {
     return suma / this.notas.length;
   };
 }
-// declaro un array vacio para llenarlo de materias
+//declaro un array vacio para ponerle materias
 let materias = [];
 
-//funciones
+//functiones:
+
+function agregarMateriaDesdeFormulario() {
+  const nombre = document.querySelector("#nombreMateria").value;
+  const nota1 = Number(document.querySelector("#nota1").value);
+  const nota2 = Number(document.querySelector("#nota2").value);
+  const nota3 = Number(document.querySelector("#nota3").value);
+
+  //verifico si la materia ya existe
+
+  let materiaExistente = buscarMateria(nombre);
+
+  if (materiaExistente) {
+    alert(
+      "Ya existe esa materia por favor agrega otra nueva o reinicia la lista"
+    );
+  } else {
+    agregarMateria(nombre);
+    const materia = buscarMateria(nombre);
+    materia.agregarNota(nota1);
+    materia.agregarNota(nota2);
+    materia.agregarNota(nota3);
+  }
+
+  mostrarMaterias();
+  guardarEnLocalStorage();
+
+  document.getElementById("nombreMateria").value = "";
+  document.getElementById("nota1").value = "";
+  document.getElementById("nota2").value = "";
+  document.getElementById("nota3").value = "";
+}
 
 function agregarMateria(nombre) {
   let materia = new Materia(nombre);
   materias.push(materia);
 }
+
 function buscarMateria(nombre) {
   for (let i = 0; i < materias.length; i++) {
     if (materias[i].nombre === nombre) {
@@ -36,56 +68,30 @@ function filtrarMaterias(promedio) {
 }
 
 function mostrarMaterias() {
-  let mensaje = "Tus materias y notas son:\n";
+  let mensaje = "Tus materias y notas son: \n";
   for (let i = 0; i < materias.length; i++) {
-    mensaje += materias[i].nombre + ": " + materias[i].notas.join(", ") + "\n";
+    mensaje += materias[i].nombre + ":" + materias[i].notas.join(", ") + "\n";
   }
-  alert(mensaje);
+  document.querySelector("#resultados").innerText = mensaje;
 }
-// la funcion calcular Materias se encarga de obtener la cantidad de materias y ejecutar en base a lo seleccionado. se encarga de nombrar las materias y la nota promedio
-function calcularMaterias(cantidad) {
-  if (cantidad >= 1 && cantidad <= 7) {
-    for (let i = 0; i < cantidad; i++) {
-      let nombre = prompt("Ingresa el nombre de la materia N° : " + (i + 1));
-      agregarMateria(nombre);
-      let materia = buscarMateria(nombre);
-      for (let n = 0; n < 3; n++) {
-        let nota = Number(
-          prompt(
-            "ingresa la nota que te sacaste en el cuatrimestre N°" +
-              " " +
-              (n + 1) +
-              " " +
-              "de " +
-              " " +
-              nombre
-          )
-        );
-        materia.agregarNota(nota);
-      }
-      let promedio = materia.calcularPromedio();
-      alert(
-        "El promedio de " + " " + nombre + " " + "es" + " " + parseInt(promedio)
-      );
-    }
-  } else if (cantidad < 1) {
-    alert("No existe esa cantidad de materias, minimo 1");
-    cantidad = Number(
-      prompt("Cuantas materias queres calcular?(Maximo 7 materias )")
-    );
-    calcularMaterias(cantidad);
-  } else {
-    alert("Son muchas Materias, podes calcular hasta 7");
-    cantidad = Number(
-      prompt("Cuantas materias queres calcular?(Maximo 7 materias )")
-    );
-    calcularMaterias(cantidad);
+
+function guardarEnLocalStorage() {
+  localStorage.setItem("materias", JSON.stringify(materias));
+}
+
+function cargarDesdeLocalStorage() {
+  const materiasGuardadas = localStorage.getItem("materias");
+  if (materiasGuardadas) {
+    materias = JSON.parse(materiasGuardadas);
+    mostrarMaterias();
   }
 }
 
-const cantidad = Number(
-  prompt("Cuantas materias queres calcular?(Maximo 7 materias )")
-);
-calcularMaterias(cantidad);
+cargarDesdeLocalStorage();
 
-mostrarMaterias();
+function borrarLocalStorage() {
+  localStorage.removeItem("materias");
+  alert("LocalStorage borrado ");
+  document.getElementById("resultados").innerText = "";
+  materias = [];
+}
