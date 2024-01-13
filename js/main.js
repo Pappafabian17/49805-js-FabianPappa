@@ -21,20 +21,39 @@ function agregarMateriaDesdeFormulario() {
   const nota2 = Number(document.querySelector("#nota2").value);
   const nota3 = Number(document.querySelector("#nota3").value);
 
+  if (nombre === "" || nota1 === "" || nota2 === "" || nota3 === "") {
+    Swal.fire({
+      title: "Error!",
+      text: "No agregaste ninguna materia, ingresa una materia por favor",
+      icon: "error",
+      confirmButtonText: "Ok",
+    });
+    return;
+  }
   //verifico si la materia ya existe
 
   let materiaExistente = buscarMateria(nombre);
 
   if (materiaExistente) {
-    alert(
-      "Ya existe esa materia por favor agrega otra nueva o reinicia la lista"
-    );
+    Swal.fire({
+      title: "Atencion!",
+      text: "Ya existe esa materia por favor agrega otra nueva o reinicia la lista",
+      icon: "warning",
+      confirmButtonText: "Ok",
+    });
   } else {
     agregarMateria(nombre);
     const materia = buscarMateria(nombre);
     materia.agregarNota(nota1);
     materia.agregarNota(nota2);
     materia.agregarNota(nota3);
+
+    Swal.fire({
+      title: "Materia agregada con éxito!",
+      text: `${nombre} agregada correctamente`,
+      icon: "success",
+      confirmButtonText: "Ok",
+    });
   }
 
   mostrarMaterias();
@@ -91,7 +110,12 @@ cargarDesdeLocalStorage();
 
 function borrarLocalStorage() {
   localStorage.removeItem("materias");
-  alert("LocalStorage borrado ");
+  Swal.fire({
+    title: "éxito!",
+    text: `Materias eliminadas correctamente`,
+    icon: "success",
+    confirmButtonText: "Ok",
+  });
   document.getElementById("resultados").innerText = "";
   materias = [];
 }
