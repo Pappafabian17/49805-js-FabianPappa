@@ -24,3 +24,7 @@ body {
 
   height: 100%;
 }
+
+.contenedor-materia {
+  background-color: red;
+}

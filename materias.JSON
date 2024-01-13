@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "nombre": "Matemáticas",
+    "notas": [8, 7, 9],
+    "promedio": 8
+  },
+  {
+    "id": 2,
+    "nombre": "Historia",
+    "notas": [6, 8, 7],
+    "promedio": 7
+  },
+  {
+    "id": 3,
+    "nombre": "Lengua",
+    "notas": [9, 8, 9],
+    "promedio": 8.67
+  },
+  {
+    "id": 4,
+    "nombre": "Ciencias",
+    "notas": [7, 8, 9],
+    "promedio": 8
+  },
+  {
+    "id": 5,
+    "nombre": "Inglés",
+    "notas": [8, 9, 7],
+    "promedio": 8
+  },
+  {
+    "id": 6,
+    "nombre": "Arte",
+    "notas": [7, 8, 9],
+    "promedio": 8
+  },
+  {
+    "id": 7,
+    "nombre": "Educación Física",
+    "notas": [9, 9, 8],
+    "promedio": 8.67
+  },
+  {
+    "id": 8,
+    "nombre": "Programación",
+    "notas": [10, 9, 8],
+    "promedio": 9
+  }
+]

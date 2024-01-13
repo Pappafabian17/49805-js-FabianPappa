@@ -7,7 +7,7 @@ function Materia(nombre) {
   };
   this.calcularPromedio = function () {
     let suma = this.notas.reduce((a, b) => a + b, 0);
-    return suma / this.notas.length;
+    return Math.round(suma / this.notas.length);
   };
 }
 //declaro un array vacio para ponerle materias
@@ -48,6 +48,9 @@ function agregarMateriaDesdeFormulario() {
     materia.agregarNota(nota2);
     materia.agregarNota(nota3);
 
+    const promedio = materia.calcularPromedio();
+    materia.promedio = promedio;
+
     Swal.fire({
       title: "Materia agregada con éxito!",
       text: `${nombre} agregada correctamente`,
@@ -87,11 +90,49 @@ function filtrarMaterias(promedio) {
 }
 
 function mostrarMaterias() {
+  const resultadosContainer = document.querySelector("#resultados");
+  resultadosContainer.innerHTML = ""; // Limpiar el contenedor antes de agregar las materias
+
+  for (let i = 0; i < materias.length; i++) {
+    const materiaDiv = document.createElement("div");
+    materiaDiv.setAttribute("class", "contenedor-materia");
+    materiaDiv.innerHTML =
+      `<p>${materias[i].nombre}: ${materias[i].notas.join(", ")}` +
+      `Promedio: ${materias[i].promedio} ` +
+      `<button onclick="eliminarMateria(${i})">Eliminar</button></p>`;
+
+    resultadosContainer.appendChild(materiaDiv);
+  }
+}
+
+/* function mostrarMaterias() {
   let mensaje = "Tus materias y notas son: \n";
   for (let i = 0; i < materias.length; i++) {
-    mensaje += materias[i].nombre + ":" + materias[i].notas.join(", ") + "\n";
+    mensaje +=
+      materias[i].nombre +
+      ": " +
+      materias[i].notas.join(", ") +
+      " " +
+      "Promedio: " +
+      materias[i].promedio +
+      " " +
+      `<button onclick="eliminarMateria(${i})">Eliminar</button>` +
+      "\n";
   }
-  document.querySelector("#resultados").innerText = mensaje;
+  document.querySelector("#resultados").innerHTML = mensaje;
+} */
+
+function eliminarMateria(index) {
+  const materiaEliminada = materias.splice(index, 1)[0];
+  mostrarMaterias();
+  guardarEnLocalStorage();
+
+  Swal.fire({
+    title: "Materia eliminada!",
+    text: `${materiaEliminada.nombre} eliminada correctamente`,
+    icon: "success",
+    confirmButtonText: "Ok",
+  });
 }
 
 function guardarEnLocalStorage() {
@@ -106,7 +147,37 @@ function cargarDesdeLocalStorage() {
   }
 }
 
+async function cargarMateriasAnteriores() {
+  await fetch("materias.JSON")
+    .then((response) => response.json())
+    .then((data) => {
+      const materiasAnterioresList = document.querySelector(
+        "#materiasAnterioresList"
+      );
+
+      data.forEach((materia) => {
+        const listItem = document.createElement("li");
+        listItem.textContent = `${materia.nombre}   : ${materia.notas.join(
+          ","
+        )}    Promedio : ${materia.promedio}`;
+        materiasAnterioresList.appendChild(listItem);
+      });
+    })
+    .catch((error) => {
+      console.error("Error al cargar materias anteriores", error);
+
+      // Mueve Swal.fire aquí dentro del bloque catch
+      Swal.fire({
+        title: "Error!",
+        text: "No se pudieron cargar las materias anteriores.",
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+    });
+}
+
 cargarDesdeLocalStorage();
+cargarMateriasAnteriores();
 
 function borrarLocalStorage() {
   localStorage.removeItem("materias");
