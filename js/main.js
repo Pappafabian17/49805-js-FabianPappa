@@ -91,7 +91,7 @@ function filtrarMaterias(promedio) {
 
 function mostrarMaterias() {
   const resultadosContainer = document.querySelector("#resultados");
-  resultadosContainer.innerHTML = ""; // Limpiar el contenedor antes de agregar las materias
+  resultadosContainer.innerHTML = ""; // Limpio el contenedor antes de agregar las materias
 
   for (let i = 0; i < materias.length; i++) {
     const materiaDiv = document.createElement("div");
@@ -99,28 +99,11 @@ function mostrarMaterias() {
     materiaDiv.innerHTML =
       `<p>${materias[i].nombre}: ${materias[i].notas.join(", ")}` +
       `Promedio: ${materias[i].promedio} ` +
-      `<button onclick="eliminarMateria(${i})">Eliminar</button></p>`;
+      `<button class="deleteButton" onclick="eliminarMateria(${i})">Eliminar</button></p>`;
 
     resultadosContainer.appendChild(materiaDiv);
   }
 }
-
-/* function mostrarMaterias() {
-  let mensaje = "Tus materias y notas son: \n";
-  for (let i = 0; i < materias.length; i++) {
-    mensaje +=
-      materias[i].nombre +
-      ": " +
-      materias[i].notas.join(", ") +
-      " " +
-      "Promedio: " +
-      materias[i].promedio +
-      " " +
-      `<button onclick="eliminarMateria(${i})">Eliminar</button>` +
-      "\n";
-  }
-  document.querySelector("#resultados").innerHTML = mensaje;
-} */
 
 function eliminarMateria(index) {
   const materiaEliminada = materias.splice(index, 1)[0];
@@ -165,8 +148,6 @@ async function cargarMateriasAnteriores() {
     })
     .catch((error) => {
       console.error("Error al cargar materias anteriores", error);
-
-      // Mueve Swal.fire aquí dentro del bloque catch
       Swal.fire({
         title: "Error!",
         text: "No se pudieron cargar las materias anteriores.",
@@ -178,7 +159,7 @@ async function cargarMateriasAnteriores() {
 
 cargarDesdeLocalStorage();
 cargarMateriasAnteriores();
-
+//borramos todas las materias del localStorage
 function borrarLocalStorage() {
   localStorage.removeItem("materias");
   Swal.fire({

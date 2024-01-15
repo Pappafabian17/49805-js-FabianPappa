@@ -8,11 +8,11 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body>
-    <h1>Proyecto de Fabian Pappa Curso de Javascript, segunda Entrega</h1>
+    <h1>Proyecto de Fabian Pappa Curso de Javascrip</h1>
 
     <div class="contenedor-principal">
       <h2>Calculador de Promedio</h2>
-      <h3>Podes ingresar los alumnos y los promedios aqui:</h3>
+      <h3>Podes ingresar las materias y calcular los promedios aqui:</h3>
 
       <div class="form-container">
         <form id="materiaForm">
@@ -27,17 +27,20 @@
 
           <label for="nota3">Nota cuatrimestre 3:</label>
           <input type="text" id="nota3" required />
-          <button type="button" onclick="agregarMateriaDesdeFormulario()">
-            Agregar Materia
-          </button>
+          <div class="buttonsContainer">
+
+            <button class="addButton" type="button" onclick="agregarMateriaDesdeFormulario()">
+              Agregar Materia
+            </button>
+            <button class="deleteButton" onclick="borrarLocalStorage()">Borrar Materias</button>
+          </div>
         </form>
         <div id="resultados"></div>
-        <button onclick="borrarLocalStorage()">Borrar Materias</button>
       </div>
 
       <div class="materias-pasadas-container">
         <h2>Materias del Año Anterior</h2>
-        <ul id="materiasAnterioresList"></ul>
+        <ul class="materiasAnteriores" id="materiasAnterioresList"></ul>
       </div>
     </div>
     <script src="js/main.js" defer></script>
